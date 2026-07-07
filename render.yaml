@@ -19,13 +19,13 @@
 
 databases:
   # Managed Render Postgres. `connectionString` is injected into the web service
-  # as DATABASE_URL below. `plan: basic` is the smallest paid, always-on tier —
+  # as DATABASE_URL below. `basic-256mb` is the smallest paid, always-on tier —
   # the `free` Postgres tier is capped and EXPIRES after 30 days, so it is not
-  # suitable for a real store. Bump to `pro`/`standard` for more storage/RAM.
+  # suitable for a real store. Bump to basic-1gb / pro-4gb for more storage/RAM.
   - name: opl-postgres
     databaseName: medusa
     user: medusa
-    plan: basic # free | basic | pro | ...  (free expires after 30 days)
+    plan: basic-256mb # free | basic-256mb | basic-1gb | basic-4gb | pro-4gb | ...
     # region: oregon        # optional; keep DB, Redis and web in the SAME region
     # postgresMajorVersion: "16"
 
