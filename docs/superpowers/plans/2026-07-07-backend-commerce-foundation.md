@@ -93,19 +93,27 @@ npx create-medusa-app@latest backend --skip-db --no-browser
 ```
 If prompted for a storefront, choose **none**. This generates a Medusa v2 project in `backend/`.
 
-- [ ] **Step 2: Provision local Postgres + Redis**
+- [ ] **Step 2: Local Postgres (already provisioned on this machine — no Docker)**
+
+This machine has **no Docker**. A local Homebrew **PostgreSQL 15** cluster has already been
+initialized and started by the operator, and a `medusa` database created:
 
 ```bash
-docker run -d --name opl-postgres -e POSTGRES_PASSWORD=medusa -e POSTGRES_DB=medusa -p 5432:5432 postgres:16
-docker run -d --name opl-redis -p 6379:6379 redis:7
+# Reference — already done. To (re)start after a reboot:
+export PGBIN=/opt/homebrew/opt/postgresql@15/bin
+export PGDATA=/opt/homebrew/var/postgresql@15
+LC_ALL=C LANG=C "$PGBIN/pg_ctl" -D "$PGDATA" -l /tmp/pg.log -o "-p 5432" start
+"$PGBIN/pg_isready" -p 5432 -h localhost   # expect: accepting connections
 ```
+The `LC_ALL=C` is required on this macOS build (otherwise "postmaster became multithreaded").
+Auth is `trust` for user `postgres`. **Redis is intentionally omitted** — Medusa v2 falls back
+to an in-memory event bus + cache in development, which is sufficient for this foundation.
 
 - [ ] **Step 3: Configure environment**
 
-Create `backend/.env`:
+Create `backend/.env` (note: no `REDIS_URL` — in-memory fallback is used):
 ```bash
-DATABASE_URL=postgres://postgres:medusa@localhost:5432/medusa
-REDIS_URL=redis://localhost:6379
+DATABASE_URL=postgres://postgres@localhost:5432/medusa
 JWT_SECRET=dev-jwt-secret-change-me
 COOKIE_SECRET=dev-cookie-secret-change-me
 STORE_CORS=http://localhost:3000
@@ -117,6 +125,10 @@ RESEND_FROM_EMAIL=orders@outbackpeptidelabs.example
 ```
 
 Create `backend/.env.example` with the same keys but empty/placeholder values (this one IS committed).
+
+> **Node version note:** this machine runs **Node v25**, ahead of Medusa's officially supported
+> Node 20/22. If `create-medusa-app` or a native dependency fails to build, that's the likely
+> cause — surface it rather than working around it silently; we may need `nvm` to pin Node 22.
 
 - [ ] **Step 4: Run migrations and create an admin user**
 
