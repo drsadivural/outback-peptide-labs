@@ -199,14 +199,26 @@ export default async function seed({ container }: ExecArgs) {
 
   // 7. Fulfillment set + service zone (au) -----------------------------------
   // A fresh stock location does not auto-create a fulfillment set, so create one
-  // and link it to the stock location. Idempotent: reuse an existing zone if present.
+  // and link it to the stock location. IMPORTANT: reuse only a service zone whose
+  // geo actually covers AU — do NOT reuse an arbitrary/leftover demo zone (e.g. the
+  // create-medusa-app "Europe" zone), or the AU shipping option lands on a zone that
+  // doesn't cover `au`, cart shipping-option lookup returns nothing, and no order can
+  // be completed ("No shipping method selected").
   const { data: existingSets } = await query.graph({
     entity: "fulfillment_set",
-    fields: ["id", "name", "service_zones.id", "service_zones.name"],
+    fields: [
+      "id",
+      "name",
+      "service_zones.id",
+      "service_zones.name",
+      "service_zones.geo_zones.country_code",
+    ],
   })
   let serviceZoneId = existingSets
     .flatMap((s) => s.service_zones ?? [])
-    .find((z: { id: string }) => !!z?.id)?.id
+    .find((z: { id: string; geo_zones?: { country_code?: string }[] }) =>
+      (z?.geo_zones ?? []).some((g) => g?.country_code === COUNTRY)
+    )?.id
 
   if (!serviceZoneId) {
     const fulfillmentSet = await fulfillmentModule.createFulfillmentSets({
