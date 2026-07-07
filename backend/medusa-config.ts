@@ -12,5 +12,21 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET,
       cookieSecret: process.env.COOKIE_SECRET,
     }
-  }
+  },
+  modules: [
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/payment-stripe",
+            id: "stripe",
+            options: {
+              apiKey: process.env.STRIPE_API_KEY,
+            },
+          },
+        ],
+      },
+    },
+  ],
 })
