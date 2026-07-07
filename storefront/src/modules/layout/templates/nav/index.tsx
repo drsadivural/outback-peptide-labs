@@ -17,28 +17,50 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-16 mx-auto border-b duration-200 bg-white border-ui-border-base">
-        <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
+      <header className="relative h-[76px] mx-auto border-b-[3px] border-outback-rust bg-outback-cream/95 backdrop-blur-sm text-outback-ink-dark">
+        <nav className="content-container flex items-center justify-between w-full h-full text-small-regular">
+          {/* Left: mobile/side menu */}
           <div className="flex-1 basis-0 h-full flex items-center">
             <div className="h-full">
-              <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
+              <SideMenu
+                regions={regions}
+                locales={locales}
+                currentLocale={currentLocale}
+              />
             </div>
           </div>
 
+          {/* Center: wordmark */}
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+              className="font-display text-lg sm:text-xl font-semibold uppercase tracking-[0.05em] whitespace-nowrap text-outback-ink-dark"
               data-testid="nav-store-link"
+              aria-label="Outback Peptide Labs — home"
             >
-              Medusa Store
+              <span className="text-outback-rust">Outback</span> Peptide Labs
             </LocalizedClientLink>
           </div>
 
+          {/* Right: nav links + account + cart */}
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <div className="hidden small:flex items-center gap-x-6 h-full">
+            <div className="hidden small:flex items-center gap-x-6 h-full font-semibold text-sm">
               <LocalizedClientLink
-                className="hover:text-ui-fg-base"
+                className="hover:text-outback-rust"
+                href="/store"
+                data-testid="nav-shop-link"
+              >
+                Shop
+              </LocalizedClientLink>
+              <LocalizedClientLink
+                className="hover:text-outback-rust"
+                href="/categories/bulk-kits"
+                data-testid="nav-bulk-link"
+              >
+                Bulk Kits
+              </LocalizedClientLink>
+              <LocalizedClientLink
+                className="hover:text-outback-rust"
                 href="/account"
                 data-testid="nav-account-link"
               >
@@ -48,7 +70,7 @@ export default async function Nav() {
             <Suspense
               fallback={
                 <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
+                  className="hover:text-outback-rust flex gap-2"
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
