@@ -1,4 +1,5 @@
 import { getBaseURL } from "@lib/util/env"
+import AgeGate from "@modules/common/components/age-gate"
 import { Metadata } from "next"
 import { Inter, Oswald } from "next/font/google"
 import "styles/globals.css"
@@ -30,6 +31,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     >
       <body className="bg-outback-page text-outback-ink-light font-sans antialiased">
         <main className="relative">{props.children}</main>
+        <AgeGate />
       </body>
     </html>
   )
