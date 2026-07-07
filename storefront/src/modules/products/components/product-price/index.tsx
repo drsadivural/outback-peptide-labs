@@ -36,6 +36,9 @@ export default function ProductPrice({
           {selectedPrice.calculated_price}
         </span>
       </span>
+      <span className="text-[0.7rem] font-semibold uppercase tracking-wide text-ui-fg-subtle">
+        AUD inc. GST
+      </span>
       {selectedPrice.price_type === "sale" && (
         <>
           <p>

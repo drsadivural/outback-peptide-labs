@@ -1,12 +1,27 @@
 import { HttpTypes } from "@medusajs/types"
 import { Container } from "@medusajs/ui"
 import Image from "next/image"
+import Vial from "@modules/products/components/vial"
 
 type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
+  /** Tint used for the drawn-vial fallback when the product has no images. */
+  vialColor?: string | null
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = ({ images, vialColor }: ImageGalleryProps) => {
+  if (!images.length) {
+    return (
+      <div className="flex items-start relative">
+        <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
+          <Container className="relative flex aspect-[29/34] w-full items-center justify-center overflow-hidden rounded-rounded bg-outback-raised">
+            <Vial color={vialColor} size={320} />
+          </Container>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex items-start relative">
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
