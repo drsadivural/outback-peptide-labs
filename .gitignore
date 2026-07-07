@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Env files (never commit real secrets)
+.env
+.env.local
+.env.*.local
+
+# Medusa build/cache
+.medusa/
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+yarn-error.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.idea/
