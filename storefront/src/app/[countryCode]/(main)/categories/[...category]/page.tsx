@@ -5,7 +5,14 @@ import { getCategoryByHandle, listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
 import CategoryTemplate from "@modules/categories/templates"
+import JsonLd from "@modules/common/components/json-ld"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import {
+  BRAND_NAME,
+  absoluteUrl,
+  categoryUrl,
+  trimDescription,
+} from "@lib/util/seo"
 
 type Props = {
   params: Promise<{ category: string[]; countryCode: string }>
@@ -47,15 +54,26 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   try {
     const productCategory = await getCategoryByHandle(params.category)
 
-    const title = productCategory.name + " | Medusa Store"
+    const title = `${productCategory.name} — ${BRAND_NAME}`
 
-    const description = productCategory.description ?? `${title} category.`
+    const description =
+      trimDescription(productCategory.description) ||
+      `Shop ${productCategory.name} research peptides from ${BRAND_NAME}.`
+
+    const canonical = categoryUrl(params.category.join("/"))
 
     return {
-      title: `${title} | Medusa Store`,
+      title,
       description,
       alternates: {
-        canonical: `${params.category.join("/")}`,
+        canonical,
+      },
+      openGraph: {
+        type: "website",
+        title,
+        description,
+        url: canonical,
+        siteName: BRAND_NAME,
       },
     }
   } catch (error) {
@@ -74,12 +92,40 @@ export default async function CategoryPage(props: Props) {
     notFound()
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: absoluteUrl(`/${params.countryCode}`),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Store",
+        item: absoluteUrl(`/${params.countryCode}/store`),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: productCategory.name,
+        item: categoryUrl(params.category.join("/")),
+      },
+    ],
+  }
+
   return (
-    <CategoryTemplate
-      category={productCategory}
-      sortBy={sortBy}
-      page={page}
-      countryCode={params.countryCode}
-    />
+    <>
+      <JsonLd data={breadcrumbJsonLd} />
+      <CategoryTemplate
+        category={productCategory}
+        sortBy={sortBy}
+        page={page}
+        countryCode={params.countryCode}
+      />
+    </>
   )
 }

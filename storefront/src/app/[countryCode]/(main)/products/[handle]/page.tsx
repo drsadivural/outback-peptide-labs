@@ -3,6 +3,13 @@ import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
+import JsonLd from "@modules/common/components/json-ld"
+import { getProductPrice } from "@lib/util/get-product-price"
+import {
+  BRAND_NAME,
+  productUrl,
+  trimDescription,
+} from "@lib/util/seo"
 import { HttpTypes } from "@medusajs/types"
 
 type Props = {
@@ -87,13 +94,32 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
+  const title = `${product.title} — ${BRAND_NAME}`
+  const description =
+    trimDescription(product.description) ||
+    `${product.title} — research-grade peptide supplied by ${BRAND_NAME}.`
+  const canonical = productUrl(product.handle)
+  const images = product.thumbnail ? [product.thumbnail] : []
+
   return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
     openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
-      images: product.thumbnail ? [product.thumbnail] : [],
+      type: "website",
+      title,
+      description,
+      url: canonical,
+      siteName: BRAND_NAME,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
     },
   }
 }
@@ -120,12 +146,38 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
+  const canonical = productUrl(pricedProduct.handle)
+  const { cheapestPrice } = getProductPrice({ product: pricedProduct })
+
+  const offers = cheapestPrice
+    ? {
+        "@type": "Offer",
+        priceCurrency: cheapestPrice.currency_code?.toUpperCase() || "AUD",
+        price: cheapestPrice.calculated_price_number.toString(),
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      }
+    : undefined
+
+  const productJsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pricedProduct.title,
+    description: trimDescription(pricedProduct.description, 500) || undefined,
+    image: pricedProduct.thumbnail ? [pricedProduct.thumbnail] : undefined,
+    brand: { "@type": "Brand", name: BRAND_NAME },
+    ...(offers ? { offers } : {}),
+  }
+
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-      images={images}
-    />
+    <>
+      <JsonLd data={productJsonLd} />
+      <ProductTemplate
+        product={pricedProduct}
+        region={region}
+        countryCode={params.countryCode}
+        images={images}
+      />
+    </>
   )
 }

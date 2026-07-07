@@ -43,10 +43,10 @@ const Hero = () => {
         {/* Art */}
         <div className="flex flex-1 flex-col items-center gap-6">
           <Image
-            src="/logo-kangaroo.png"
+            src="/logo-kangaroo.webp"
             alt="Outback Peptide Labs badge"
-            width={320}
-            height={320}
+            width={640}
+            height={724}
             priority
             className="h-auto w-56 small:w-72 drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
           />
