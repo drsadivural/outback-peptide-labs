@@ -34,6 +34,26 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        // Outback Peptide Labs brand palette (ported from reference/styles.css :root)
+        outback: {
+          black: "#0e0b08", // silhouette black
+          page: "#171210", // page background
+          surface: "#201915", // card surface
+          raised: "#2a211b", // raised surface
+          line: "#3a2d23", // borders on dark
+          dune: "#3a2417", // dune fill
+          rust: "#a84e1c", // primary brand orange
+          "rust-hover": "#c2601f", // rust hover
+          amber: "#e0954c", // accent amber
+          "amber-light": "#e9a96b",
+          cream: "#f7eeda", // cream heading/text on dark
+          "cream-2": "#f2e3c8",
+          "ink-dark": "#1a120b", // text on cream
+          "ink-light": "#f2e6d4", // text on dark
+          "muted-dark": "#6b5a44", // muted on cream
+          "muted-light": "#bfa88e", // muted on dark
+          danger: "#c0392b",
+        },
       },
       borderRadius: {
         none: "0px",
@@ -60,6 +80,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          "var(--font-inter)",
           "Inter",
           "-apple-system",
           "BlinkMacSystemFont",
@@ -69,6 +90,7 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        display: ["var(--font-oswald)", "Inter", "sans-serif"],
       },
       keyframes: {
         ring: {
