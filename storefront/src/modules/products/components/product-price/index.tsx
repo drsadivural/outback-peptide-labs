@@ -18,17 +18,26 @@ export default function ProductPrice({
   const selectedPrice = variant ? variantPrice : cheapestPrice
 
   if (!selectedPrice) {
-    return <div className="block w-32 h-9 bg-gray-100 animate-pulse" />
+    return (
+      <div className="block w-32 h-9 rounded bg-outback-raised animate-pulse" />
+    )
   }
 
+  const onSale = selectedPrice.price_type === "sale"
+
   return (
-    <div className="flex flex-col text-ui-fg-base">
+    <div className="flex flex-col">
       <span
-        className={clx("text-xl-semi", {
-          "text-ui-fg-interactive": selectedPrice.price_type === "sale",
-        })}
+        className={clx(
+          "font-display text-3xl font-semibold leading-none",
+          onSale ? "text-outback-amber" : "text-outback-cream"
+        )}
       >
-        {!variant && "From "}
+        {!variant && (
+          <span className="text-base font-normal text-outback-muted-light">
+            From{" "}
+          </span>
+        )}
         <span
           data-testid="product-price"
           data-value={selectedPrice.calculated_price_number}
@@ -36,25 +45,23 @@ export default function ProductPrice({
           {selectedPrice.calculated_price}
         </span>
       </span>
-      <span className="text-[0.7rem] font-semibold uppercase tracking-wide text-ui-fg-subtle">
+      <span className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-outback-muted-light">
         AUD inc. GST
       </span>
-      {selectedPrice.price_type === "sale" && (
-        <>
-          <p>
-            <span className="text-ui-fg-subtle">Original: </span>
-            <span
-              className="line-through"
-              data-testid="original-product-price"
-              data-value={selectedPrice.original_price_number}
-            >
-              {selectedPrice.original_price}
-            </span>
-          </p>
-          <span className="text-ui-fg-interactive">
+      {onSale && (
+        <p className="mt-1 text-sm text-outback-muted-light">
+          <span>Original: </span>
+          <span
+            className="line-through"
+            data-testid="original-product-price"
+            data-value={selectedPrice.original_price_number}
+          >
+            {selectedPrice.original_price}
+          </span>
+          <span className="ml-2 font-semibold text-outback-amber">
             -{selectedPrice.percentage_diff}%
           </span>
-        </>
+        </p>
       )}
     </div>
   )

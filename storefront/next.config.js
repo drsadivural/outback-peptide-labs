@@ -13,6 +13,17 @@ const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
  */
 const nextConfig = {
   reactStrictMode: true,
+  // Allow Next.js Server Actions (cart/checkout) when the site is reached through
+  // a proxied host such as a Cloudflare tunnel. Set SF_ALLOWED_ORIGINS to a
+  // comma-separated list of hostnames (no protocol), e.g. "abc.trycloudflare.com".
+  experimental: {
+    serverActions: {
+      allowedOrigins: (process.env.SF_ALLOWED_ORIGINS || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    },
+  },
   logging: {
     fetches: {
       fullUrl: true,

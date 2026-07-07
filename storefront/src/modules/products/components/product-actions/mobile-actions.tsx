@@ -70,24 +70,24 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="opacity-0"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
+            className="bg-outback-surface text-outback-ink-light flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-outback-line"
             data-testid="mobile-actions"
           >
             <div className="flex items-center gap-x-2">
               <span data-testid="mobile-title">{product.title}</span>
               <span>—</span>
               {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
+                <div className="flex items-end gap-x-2 text-outback-cream">
                   {selectedPrice.price_type === "sale" && (
                     <p>
-                      <span className="line-through text-small-regular">
+                      <span className="line-through text-small-regular text-outback-muted-light">
                         {selectedPrice.original_price}
                       </span>
                     </p>
                   )}
                   <span
-                    className={clx({
-                      "text-ui-fg-interactive":
+                    className={clx("font-semibold", {
+                      "text-outback-amber":
                         selectedPrice.price_type === "sale",
                     })}
                   >
@@ -104,7 +104,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               {!isSimple && <Button
                 onClick={open}
                 variant="secondary"
-                className="w-full"
+                className="w-full !border-outback-line !bg-outback-raised !text-outback-ink-light hover:!border-outback-amber"
                 data-testid="mobile-actions-button"
               >
                 <div className="flex items-center justify-between w-full">
@@ -119,7 +119,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}
-                className="w-full"
+                className="w-full font-semibold !border-none !bg-outback-rust !text-outback-cream hover:!bg-outback-rust-hover disabled:!cursor-not-allowed disabled:!bg-outback-line disabled:!text-outback-muted-light"
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >
@@ -165,13 +165,13 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   <div className="w-full flex justify-end pr-6">
                     <button
                       onClick={close}
-                      className="bg-white w-12 h-12 rounded-full text-ui-fg-base flex justify-center items-center"
+                      className="bg-outback-raised border border-outback-line w-12 h-12 rounded-full text-outback-cream flex justify-center items-center"
                       data-testid="close-modal-button"
                     >
                       <X />
                     </button>
                   </div>
-                  <div className="bg-white px-6 py-12">
+                  <div className="bg-outback-surface border-t border-outback-line px-6 py-12">
                     {(product.variants?.length ?? 0) > 1 && (
                       <div className="flex flex-col gap-y-6">
                         {(product.options || []).map((option) => {

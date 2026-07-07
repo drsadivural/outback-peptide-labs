@@ -137,9 +137,12 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
-        <div>
-          {(product.variants?.length ?? 0) > 1 && (
+      <div
+        className="flex flex-col gap-y-5 rounded-xl border border-outback-line bg-outback-surface p-5"
+        ref={actionsRef}
+      >
+        {(product.variants?.length ?? 0) > 1 && (
+          <>
             <div className="flex flex-col gap-y-4">
               {(product.options || []).map((option) => {
                 return (
@@ -155,10 +158,10 @@ export default function ProductActions({
                   </div>
                 )
               })}
-              <Divider />
             </div>
-          )}
-        </div>
+            <div className="h-px w-full bg-outback-line" />
+          </>
+        )}
 
         <ProductPrice product={product} variant={selectedVariant} />
 
@@ -172,7 +175,7 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="w-full h-10"
+          className="w-full h-11 rounded-md font-semibold !border-none !bg-outback-rust !text-outback-cream hover:!bg-outback-rust-hover disabled:!cursor-not-allowed disabled:!bg-outback-line disabled:!text-outback-muted-light"
           isLoading={isAdding}
           data-testid="add-product-button"
         >
