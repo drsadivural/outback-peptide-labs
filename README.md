@@ -127,3 +127,10 @@ This is a demo front end. A real store still needs:
 4. **Regulatory advice.** Many items in this catalogue (Retatrutide, Tirzepatide, the GH secretagogues, Melanotan, PT-141, etc.) are **Schedule 4 prescription-only substances** in Australia. Selling them to the public is restricted regardless of "research use only" wording, and payment processors commonly ban the category. Work through `compliance-checklist.html` with a regulatory adviser **before** launch.
 
 Nothing in this repository is legal advice.
+
+## Repository structure (post-migration)
+
+- `backend/` — Medusa v2 commerce backend (this plan)
+- `storefront/` — Next.js storefront (Plan 2)
+- `reference/` — the original static demo, kept as the visual/design source of truth
+- `docs/superpowers/` — specs and implementation plans
