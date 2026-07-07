@@ -1,28 +1,35 @@
 "use client"
 
 import { isManual, isStripeLike } from "@lib/constants"
-import { placeOrder } from "@lib/data/cart"
+import { placeOrder, setAgeVerification } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
+import { AgeVerificationState } from "../age-verification"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
   "data-testid": string
+  ageState: AgeVerificationState
+  ageError: string | null
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   "data-testid": dataTestId,
+  ageState,
+  ageError,
 }) => {
   const notReady =
     !cart ||
     !cart.shipping_address ||
     !cart.billing_address ||
     !cart.email ||
-    (cart.shipping_methods?.length ?? 0) < 1
+    (cart.shipping_methods?.length ?? 0) < 1 ||
+    // Block "Place order" until the 18+ gate is satisfied client-side.
+    Boolean(ageError)
 
   const paymentSession = cart.payment_collection?.payment_sessions?.[0]
 
@@ -33,25 +40,43 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
           notReady={notReady}
           cart={cart}
           data-testid={dataTestId}
+          ageState={ageState}
         />
       )
     case isManual(paymentSession?.provider_id):
       return (
-        <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+        <ManualTestPaymentButton
+          notReady={notReady}
+          data-testid={dataTestId}
+          ageState={ageState}
+        />
       )
     default:
       return <Button disabled>Select a payment method</Button>
   }
 }
 
+/**
+ * Writes the DOB + attestation to cart metadata before order completion so the
+ * backend `completeCartWorkflow` hook can enforce the 18+ gate.
+ */
+async function persistAgeMetadata(ageState: AgeVerificationState) {
+  await setAgeVerification({
+    dateOfBirth: ageState.dateOfBirth,
+    ageAttested: ageState.attested,
+  })
+}
+
 const StripePaymentButton = ({
   cart,
   notReady,
   "data-testid": dataTestId,
+  ageState,
 }: {
   cart: HttpTypes.StoreCart
   notReady: boolean
   "data-testid"?: string
+  ageState: AgeVerificationState
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -80,6 +105,16 @@ const StripePaymentButton = ({
     setSubmitting(true)
 
     if (!stripe || !elements || !card || !cart) {
+      setSubmitting(false)
+      return
+    }
+
+    // Persist DOB + attestation to cart metadata BEFORE payment/completion so
+    // the backend age-gate hook sees the fields.
+    try {
+      await persistAgeMetadata(ageState)
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Failed to save age verification.")
       setSubmitting(false)
       return
     }
@@ -151,7 +186,13 @@ const StripePaymentButton = ({
   )
 }
 
-const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
+const ManualTestPaymentButton = ({
+  notReady,
+  ageState,
+}: {
+  notReady: boolean
+  ageState: AgeVerificationState
+}) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -165,8 +206,18 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
       })
   }
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     setSubmitting(true)
+
+    // Persist DOB + attestation to cart metadata BEFORE completion so the
+    // backend age-gate hook sees the fields.
+    try {
+      await persistAgeMetadata(ageState)
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Failed to save age verification.")
+      setSubmitting(false)
+      return
+    }
 
     onPaymentCompleted()
   }

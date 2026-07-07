@@ -114,6 +114,49 @@ export async function updateCart(data: HttpTypes.StoreUpdateCart) {
     .catch(medusaError)
 }
 
+/**
+ * Persists 18+ age-gate fields to the cart metadata so the backend
+ * `completeCartWorkflow` hook can enforce the age gate at order completion.
+ * Merges with any existing metadata rather than clobbering it.
+ *
+ * The backend reads `cart.metadata.date_of_birth` (ISO yyyy-mm-dd string) and
+ * `cart.metadata.age_attested` (boolean true). Without these, no order can complete.
+ */
+export async function setAgeVerification({
+  dateOfBirth,
+  ageAttested,
+}: {
+  dateOfBirth: string
+  ageAttested: boolean
+}) {
+  const cartId = await getCartId()
+
+  if (!cartId) {
+    throw new Error("No existing cart found when setting age verification")
+  }
+
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  // Fetch existing metadata so we merge instead of overwrite.
+  const existing = await retrieveCart(cartId, "id,metadata")
+  const metadata = {
+    ...(existing?.metadata ?? {}),
+    date_of_birth: dateOfBirth,
+    age_attested: ageAttested,
+  }
+
+  return sdk.store.cart
+    .update(cartId, { metadata }, {}, headers)
+    .then(async ({ cart }: { cart: HttpTypes.StoreCart }) => {
+      const cartCacheTag = await getCacheTag("carts")
+      revalidateTag(cartCacheTag)
+      return cart
+    })
+    .catch(medusaError)
+}
+
 export async function addToCart({
   variantId,
   quantity,
