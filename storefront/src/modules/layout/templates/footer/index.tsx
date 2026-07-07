@@ -21,8 +21,9 @@ export default async function Footer() {
               peptides. ABN 00 000 000 000 (placeholder).
             </p>
             <p className="text-sm leading-relaxed">
-              📧 support@outbackpeptidelabs.example
-              <span className="mx-1">•</span> Sydney, NSW
+              <span>📧 support@outbackpeptidelabs.example</span>
+              <span className="mx-1">•</span>
+              <span>Sydney, NSW</span>
             </p>
           </div>
 
