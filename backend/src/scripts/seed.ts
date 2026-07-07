@@ -7,6 +7,7 @@ import {
   createApiKeysWorkflow,
   createProductCategoriesWorkflow,
   createProductsWorkflow,
+  createPromotionsWorkflow,
   createRegionsWorkflow,
   createSalesChannelsWorkflow,
   createShippingOptionsWorkflow,
@@ -29,9 +30,10 @@ import { PRODUCTS, KITS, CATEGORIES, CatalogueItem } from "../data/catalogue"
  *  - Publishable API key wired to the sales channel
  *  - 5 catalogue categories + a "Bulk Kits" category
  *  - Full catalogue (products + kits), idempotent on handle
+ *  - FREESHIP300 automatic promotion (100% off shipping when item_total >= A$300)
  *
  * Re-running is safe: existing products, categories, region, tax region, shipping
- * option and api key are detected and skipped.
+ * option, api key and promotion are detected and skipped.
  */
 export default async function seed({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
@@ -363,6 +365,41 @@ export default async function seed({ container }: ExecArgs) {
     await createProductsWorkflow(container).run({
       input: { products: allInputs },
     })
+  }
+
+  // 12. FREESHIP300 automatic promotion (100% off shipping over A$300) --------
+  const { data: promos } = await query.graph({
+    entity: "promotion",
+    fields: ["id", "code"],
+  })
+  if (!promos.some((p) => p.code === "FREESHIP300")) {
+    await createPromotionsWorkflow(container).run({
+      input: {
+        promotionsData: [
+          {
+            code: "FREESHIP300",
+            is_automatic: true,
+            type: "standard",
+            status: "active",
+            application_method: {
+              type: "percentage",
+              target_type: "shipping_methods",
+              allocation: "across",
+              value: 100,
+              currency_code: CURRENCY,
+            },
+            rules: [
+              {
+                attribute: "item_total",
+                operator: "gte",
+                values: ["300"],
+              },
+            ],
+          },
+        ],
+      },
+    })
+    logger.info("Created automatic promotion FREESHIP300 (free shipping over A$300).")
   }
 
   logger.info(
