@@ -171,6 +171,11 @@ export default async function seed({ container }: ExecArgs) {
       input: [
         {
           country_code: COUNTRY,
+          // The tax region MUST have a tax provider, otherwise automatic tax
+          // calculation on cart operations (add-to-cart, etc.) fails with
+          // "Unable to retrieve the tax provider with id: null". `tp_system`
+          // is Medusa's built-in default tax provider.
+          provider_id: "tp_system",
           default_tax_rate: { name: "GST", code: "GST", rate: 10 },
         } as any,
       ],
