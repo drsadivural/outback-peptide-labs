@@ -1,17 +1,23 @@
 #!/usr/bin/env sh
-# Production start script for the Medusa backend on Railway.
+# Production start script for the Medusa backend (Render web service).
 #
 # Medusa's production artifact lives in `.medusa/server` after `medusa build`.
 # We must (1) run database migrations, then (2) start the server from that
-# compiled directory. This script is the container start command.
+# compiled directory. This script is the service's start command.
 #
-# Railway injects DATABASE_URL, REDIS_URL and PORT at runtime. medusa-config.ts
+# Render injects DATABASE_URL, REDIS_URL and PORT at runtime. medusa-config.ts
 # reads REDIS_URL to enable the Redis-backed modules; `medusa start` binds to
 # PORT automatically.
+#
+# This script is location-relative (it cd's from its own path), so it works
+# regardless of the platform's working directory. On Render, rootDir=backend
+# means the start command runs from <repo>/backend, and `sh ./scripts/start-prod.sh`
+# resolves here.
 set -e
 
 # The build output is created by `medusa build` at <repo>/backend/.medusa/server.
-# When Railway's Root Directory is `backend`, the working dir is that folder.
+# `$(dirname "$0")/..` resolves to the `backend/` package dir regardless of the
+# platform's working directory (Render rootDir=backend, or a local run).
 cd "$(dirname "$0")/.."
 
 if [ ! -d ".medusa/server" ]; then

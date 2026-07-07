@@ -1,0 +1,119 @@
+# =============================================================================
+# Render Blueprint — Medusa v2 backend (opl-backend)
+# =============================================================================
+# Deploys the Medusa backend + its managed Postgres and Key-Value (Redis) on
+# Render. The Next.js storefront is NOT defined here — it continues to deploy
+# to Vercel (see storefront/vercel.json + DEPLOYMENT.md).
+#
+# Apply this Blueprint from the repo root:
+#   - Dashboard: New → Blueprint → pick this repo → Render reads render.yaml.
+#   - API / CLI: create the services from this file (see DEPLOYMENT.md §Render API).
+#
+# Schema verified against Render's current Blueprint spec
+# (render.com/docs/blueprint-spec, docs pulled 2026-07):
+#   - `databases:` is a TOP-LEVEL key (managed Postgres), not a service.
+#   - Managed Redis is a service of `type: keyvalue`.
+#   - `fromDatabase` / `fromService` inject connection strings.
+#   - `generateValue: true` mints a secret; `sync: false` = set later in dashboard.
+# =============================================================================
+
+databases:
+  # Managed Render Postgres. `connectionString` is injected into the web service
+  # as DATABASE_URL below. `plan: basic` is the smallest paid, always-on tier —
+  # the `free` Postgres tier is capped and EXPIRES after 30 days, so it is not
+  # suitable for a real store. Bump to `pro`/`standard` for more storage/RAM.
+  - name: opl-postgres
+    databaseName: medusa
+    user: medusa
+    plan: basic # free | basic | pro | ...  (free expires after 30 days)
+    # region: oregon        # optional; keep DB, Redis and web in the SAME region
+    # postgresMajorVersion: "16"
+
+services:
+  # ---------------------------------------------------------------------------
+  # Managed Redis (Key-Value). Internal-only: ipAllowList [] blocks all public
+  # ingress, so only services in the same Render account/region can reach it.
+  # medusa-config.ts enables the Redis-backed event bus, cache, workflow engine
+  # and distributed locking as soon as REDIS_URL is present.
+  # ---------------------------------------------------------------------------
+  - type: keyvalue
+    name: opl-redis
+    ipAllowList: [] # internal connections only (no public access)
+    plan: starter # free | starter | standard | pro  (free is capped / evicts)
+    maxmemoryPolicy: noeviction # don't silently drop queued events/locks
+    # region: oregon          # match the Postgres + web service region
+
+  # ---------------------------------------------------------------------------
+  # Backend web service (Medusa API + Admin). Node runtime.
+  #
+  # pnpm-workspace-from-rootDir problem:
+  #   rootDir is `backend`, so Render runs build & start with the working dir
+  #   set to <repo>/backend. But the pnpm workspace root (pnpm-workspace.yaml +
+  #   the single pnpm-lock.yaml) lives at the REPO ROOT. The build therefore
+  #   `cd ..` up to the repo root, installs the whole frozen workspace, then
+  #   builds only the backend filter. `medusa build` writes its artifact to
+  #   backend/.medusa/server (relative to the backend package), which is exactly
+  #   where start-prod.sh (run from rootDir=backend) looks for it.
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: opl-backend
+    runtime: node
+    rootDir: backend
+    plan: starter # NOTE: `free` web services SPIN DOWN when idle (cold starts,
+    #                       breaks background workers/webhooks). Use `starter`+
+    #                       for a real store; scale to `standard` under load.
+    healthCheckPath: /health
+    # region: oregon           # match the Postgres + Redis region
+    buildCommand: corepack enable && cd .. && pnpm install --frozen-lockfile && pnpm --filter backend build
+    startCommand: sh ./scripts/start-prod.sh
+    envVars:
+      # --- Node version: pin to a Medusa-supported LTS. NOT 25 (local dev only).
+      - key: NODE_VERSION
+        value: "22" # Medusa v2 supports Node 20 & 22; 22 is current LTS.
+
+      - key: NODE_ENV
+        value: production
+
+      # --- Data plane (injected from the resources above) ---------------------
+      - key: DATABASE_URL
+        fromDatabase:
+          name: opl-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: opl-redis
+          property: connectionString
+
+      # --- Secrets: generated once by Render, then held constant --------------
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SECRET
+        generateValue: true
+
+      # --- CORS: set AFTER the Vercel storefront URL is known -----------------
+      # STORE_CORS = storefront (Vercel) origin
+      # ADMIN_CORS = this backend's own Render URL (admin is served by backend)
+      # AUTH_CORS  = storefront origin AND backend origin, comma-separated
+      - key: STORE_CORS
+        sync: false
+      - key: ADMIN_CORS
+        sync: false
+      - key: AUTH_CORS
+        sync: false
+
+      # --- Third-party keys: set in the dashboard (never commit values) -------
+      - key: STRIPE_API_KEY # sk_test_... then sk_live_...
+        sync: false
+      - key: RESEND_API_KEY # re_...
+        sync: false
+      - key: RESEND_FROM_EMAIL # e.g. orders@yourdomain.com
+        sync: false
+
+      # --- Backend self-URL. Render exposes RENDER_EXTERNAL_URL automatically,
+      #     but Medusa/admin sometimes want these named explicitly. Set them to
+      #     the service's onrender.com URL (or custom domain) once it is live.
+      - key: MEDUSA_BACKEND_URL
+        sync: false
+      - key: MEDUSA_ADMIN_BACKEND_URL
+        sync: false
