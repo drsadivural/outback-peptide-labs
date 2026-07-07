@@ -106,11 +106,22 @@ npm run seed
 # 2) Remove Medusa demo data that the starter ships with
 npm run clean:demo
 
-# 3) Enable the Stripe payment provider on the region(s)
-npm run enable:stripe
+# 3) (OPTIONAL) Enable the Stripe card provider on the region(s).
+#    SKIP this for a bank-transfer / manual-payment store — the seed already
+#    leaves the built-in manual provider (pp_system_default) on the AU region,
+#    which lets orders be placed and paid by bank transfer. Only run this if you
+#    add real Stripe keys and want card payments.
+# npm run enable:stripe
 ```
 
 > These npm scripts exist in `backend/package.json` and are copied into `.medusa/server`. If a script is not found there, run the underlying command, e.g. `npx medusa exec ./src/scripts/seed.ts`.
+
+> **Payment mode.** The store is configured for **manual / bank-transfer** checkout by
+> default (no gateway needed): the AU region keeps Medusa's `pp_system_default` provider,
+> orders complete and are marked for manual payment, and you add your bank/deposit
+> instructions to the order-confirmation email or a checkout note later. Stripe is
+> optional — set `STRIPE_API_KEY` + `NEXT_PUBLIC_STRIPE_KEY` and run `enable:stripe`
+> only if/when you want card payments.
 
 ### 1.7 Grab the publishable key
 The seed script prints it near the end of its output:
