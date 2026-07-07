@@ -37,8 +37,8 @@ export default async function enableStripe({ container }: ExecArgs) {
   }
 
   const currentProviderIds: string[] = (region.payment_providers ?? [])
-    .map((p: { id: string }) => p.id)
-    .filter(Boolean)
+    .map((p) => p?.id)
+    .filter((id): id is string => Boolean(id))
 
   if (currentProviderIds.includes(STRIPE_PROVIDER_ID)) {
     logger.info(

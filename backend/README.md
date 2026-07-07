@@ -1,62 +1,76 @@
-<p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
-</p>
-<h1 align="center">
-  Medusa
-</h1>
+# Outback Peptide Labs — Backend (Medusa v2)
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
+Headless commerce backend for the Outback Peptide Labs storefront. Serves the Store API,
+computes all pricing/GST server-side, handles Stripe checkout, enforces an 18+ date-of-birth
+gate at cart completion, and emails order confirmations.
 
-<p align="center">
-  Building blocks for digital commerce
-</p>
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+- **Medusa** v2.17.0 · **Node** 20+ (built & tested on 25) · **PostgreSQL** · Redis optional
 
-## Compatibility
+## Prerequisites
 
-This starter is compatible with versions >= 2 of `@medusajs/medusa`. 
+- Node 20+ and **pnpm** (`npm i -g pnpm`)
+- A PostgreSQL server. Locally (macOS/Homebrew, no Docker):
+  ```bash
+  # one-time init + start (LC_ALL avoids a macOS "multithreaded postmaster" error)
+  /opt/homebrew/opt/postgresql@15/bin/initdb -D /opt/homebrew/var/postgresql@15 -U postgres --auth=trust
+  LC_ALL=C LANG=C /opt/homebrew/opt/postgresql@15/bin/pg_ctl -D /opt/homebrew/var/postgresql@15 -l /tmp/pg.log -o "-p 5432" start
+  psql -p 5432 -U postgres -h localhost -c "CREATE DATABASE medusa;"
+  ```
+- **Redis is optional** in development — with no `REDIS_URL`, Medusa uses an in-memory event
+  bus + cache. Use Redis in production.
 
-## Getting Started
+## Setup
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+1. `cp .env.example .env` and fill values (at minimum `DATABASE_URL`; `STRIPE_API_KEY` /
+   `RESEND_*` may stay as placeholders until you wire real keys).
+2. Install deps from the repo root: `pnpm install`
+3. Migrate: `npx medusa db:migrate`
+4. Create an admin user: `npx medusa user -e admin@example.com -p <password>`
+5. Seed the catalogue + region/tax/shipping: `npm run seed`
+6. (Fresh scaffold only) remove Medusa's demo data: `npm run clean:demo`
+7. (After configuring Stripe) enable it on the AU region: `npm run enable:stripe`
+8. Run: `npm run dev` → Store/Admin API on `:9000`, admin dashboard at `:9000/app`
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+## What the seed creates
 
-## What is Medusa
+- Store currency **AUD**, **tax-inclusive**
+- **Australia** region (AUD, country `au`) with Stripe enabled
+- **10% GST** tax region
+- Sales channel + Sydney stock location + default shipping profile
+- Fulfillment set/service zone (au) + **Australia Post Express** flat option (A$14.95)
+- Publishable API key linked to the sales channel (printed at the end of the seed log)
+- 5 catalogue categories + a **Bulk Kits** category
+- The full catalogue: **32 products + 4 kits** (idempotent on `handle`)
+- **FREESHIP300** automatic promotion — 100% off shipping when item total ≥ A$300
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+## Key source
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+| Concern | Location |
+|---|---|
+| Catalogue data | `src/data/catalogue.ts` |
+| Seed | `src/scripts/seed.ts` |
+| Remove demo data | `src/scripts/remove-demo-data.ts` (`npm run clean:demo`) |
+| Enable Stripe on region | `src/scripts/enable-stripe.ts` (`npm run enable:stripe`) |
+| Age (18+) math | `src/lib/age.ts` |
+| Purchaser eligibility rule | `src/lib/purchaser-eligibility.ts` |
+| 18+ gate at checkout | `src/workflows/hooks/validate-age.ts` (hooks `completeCartWorkflow.validate`) |
+| Payments | Stripe (`@medusajs/payment-stripe`), test mode |
+| Order-confirmation email | `src/modules/resend` + `src/subscribers/order-placed.ts` |
 
-## Community & Contributions
+## Tests
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+```bash
+npm run test:unit               # pure logic: catalogue integrity, age math, eligibility
+npm run test:integration:http   # boots a real app + test DB; proves the 18+ gate blocks checkout
+```
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+The integration harness needs `pg-god` (installed) and `.env.test` (sets `DB_USERNAME=postgres`
+for test-DB creation). PostgreSQL must be running.
 
-## Other channels
+## Notes
 
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)
+- Stripe stands in for the production high-risk gateway; swap it for a custom Medusa payment
+  provider module later (the abstraction makes this a drop-in, not a rewrite).
+- The 18+ gate here is a **server-validated DOB attestation**, not third-party ID verification
+  (a later phase).
+- Never commit `.env`. Only `.env.example` (all values blank) is tracked.
