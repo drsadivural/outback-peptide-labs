@@ -1,0 +1,36 @@
+# Netlify config — deploys the STOREFRONT (storefront/) ONLY.
+#
+# ⚠️ The Medusa BACKEND cannot run on Netlify (it is a long-running server with
+# Postgres/Redis). Do NOT point Netlify at `backend/`. Netlify hosts only the
+# Next.js storefront; the backend is hosted elsewhere and referenced via the
+# MEDUSA_BACKEND_URL environment variable (set in the Netlify UI).
+#
+# In the Netlify UI (Site configuration → Build & deploy → Build settings):
+#   - Base directory:     storefront
+#   - Build command:      (leave blank so this file's command is used)
+#   - Publish directory:  (leave blank so this file's publish is used)
+# Then add the environment variables listed at the bottom of this file.
+
+[build]
+  base = "storefront"
+  # base is `storefront`, so paths below are relative to the repo root via `cd ..`.
+  command = "corepack enable && cd .. && pnpm install --frozen-lockfile && pnpm --filter storefront build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Required for Next.js SSR/ISR on Netlify (server actions, dynamic routes).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# ---------------------------------------------------------------------------
+# Environment variables to set in the Netlify UI (NOT committed here):
+#   MEDUSA_BACKEND_URL              = <public URL of the Medusa backend>
+#   NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY = pk_...  (from the backend seed log)
+#   NEXT_PUBLIC_DEFAULT_REGION      = au
+#   REVALIDATE_SECRET               = <any random string>
+#   NEXT_PUBLIC_BASE_URL            = <your Netlify site URL, after first deploy>
+# The backend must be publicly reachable at BUILD time (the storefront
+# pre-renders product pages by calling MEDUSA_BACKEND_URL).
+# ---------------------------------------------------------------------------
