@@ -26,16 +26,16 @@ export default async function ProductPreview({
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
       <div
         data-testid="product-wrapper"
-        className="flex flex-col overflow-hidden rounded-large border border-outback-line bg-outback-surface transition-all duration-150 ease-in-out group-hover:-translate-y-1 group-hover:border-outback-rust group-hover:shadow-lg"
+        className="flex flex-col overflow-hidden rounded-2xl border border-brand-line bg-white shadow-sm transition-all duration-150 ease-in-out group-hover:-translate-y-1 group-hover:border-brand-blue group-hover:shadow-[0_16px_40px_-16px_rgba(15,23,41,0.25)]"
       >
         {/* Media */}
-        <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-outback-raised">
+        <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-brand-surface2">
           {badge && (
-            <span className="absolute left-3 top-3 z-10 rounded-circle bg-outback-rust px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-outback-cream">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-brand-blue px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-white">
               {badge}
             </span>
           )}
-          <span className="absolute right-3 top-3 z-10 rounded-circle bg-[#3f5233] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-[#d9ecc8]">
+          <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-brand-greenSoft px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-brand-green">
             In Stock
           </span>
           {image ? (
@@ -56,13 +56,13 @@ export default async function ProductPreview({
         {/* Body */}
         <div className="flex flex-1 flex-col gap-y-2 p-4">
           <h3
-            className="font-display text-base uppercase tracking-wide text-outback-cream"
+            className="font-display text-base font-semibold tracking-[-0.01em] text-brand-ink"
             data-testid="product-title"
           >
             {product.title}
           </h3>
           {product.description && (
-            <p className="line-clamp-2 flex-1 text-sm text-outback-muted-light">
+            <p className="line-clamp-2 flex-1 text-sm text-brand-body">
               {product.description}
             </p>
           )}

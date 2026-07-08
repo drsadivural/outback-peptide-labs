@@ -138,7 +138,7 @@ export default function ProductActions({
   return (
     <>
       <div
-        className="flex flex-col gap-y-5 rounded-xl border border-outback-line bg-outback-surface p-5"
+        className="flex flex-col gap-y-5 rounded-2xl border border-brand-line bg-white p-6 shadow-sm"
         ref={actionsRef}
       >
         {(product.variants?.length ?? 0) > 1 && (
@@ -159,7 +159,7 @@ export default function ProductActions({
                 )
               })}
             </div>
-            <div className="h-px w-full bg-outback-line" />
+            <div className="h-px w-full bg-brand-line" />
           </>
         )}
 
@@ -175,7 +175,7 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="w-full h-11 rounded-md font-semibold !border-none !bg-outback-rust !text-outback-cream hover:!bg-outback-rust-hover disabled:!cursor-not-allowed disabled:!bg-outback-line disabled:!text-outback-muted-light"
+          className="w-full h-12 rounded-xl font-semibold !border-none !bg-brand-navy !text-white hover:!bg-brand-navyHover disabled:!cursor-not-allowed disabled:!bg-slate-200 disabled:!text-slate-400"
           isLoading={isAdding}
           data-testid="add-product-button"
         >

@@ -34,6 +34,23 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        // Modern light e-commerce brand palette (peptide.business-inspired)
+        brand: {
+          navy: "#163269", // primary / CTA buttons
+          navyDeep: "#0f2147", // footer / deep navy surfaces
+          navyHover: "#1d3f82", // CTA hover (slightly lighter navy)
+          blue: "#2563eb", // bright accent (links, highlights)
+          blueHover: "#1d4ed8",
+          blueSoft: "#eff4ff", // soft blue tint background
+          ink: "#0f1729", // primary text / headings (near-black navy)
+          body: "#475569", // body text (slate-600)
+          muted: "#64748b", // muted text (slate-500)
+          line: "#e2e8f0", // borders (slate-200)
+          surface: "#ffffff", // card surface (white)
+          surface2: "#f8fafc", // alternating section bg (slate-50)
+          green: "#16a34a", // success / in-stock
+          greenSoft: "#dcfce7",
+        },
         // Outback Peptide Labs brand palette (ported from reference/styles.css :root)
         outback: {
           black: "#0e0b08", // silhouette black
@@ -90,7 +107,12 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
-        display: ["var(--font-oswald)", "Inter", "sans-serif"],
+        display: [
+          "var(--font-outfit)",
+          "var(--font-inter)",
+          "Inter",
+          "sans-serif",
+        ],
       },
       keyframes: {
         ring: {

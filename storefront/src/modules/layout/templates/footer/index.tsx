@@ -5,16 +5,16 @@ import MedusaCTA from "@modules/layout/components/medusa-cta"
 
 export default async function Footer() {
   return (
-    <footer className="w-full bg-outback-black text-outback-muted-light border-t border-outback-line">
+    <footer className="w-full bg-brand-navyDeep text-slate-300 border-t border-white/10">
       <div className="content-container flex flex-col w-full">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 py-16">
           {/* Brand blurb */}
           <div className="flex flex-col gap-y-4">
             <LocalizedClientLink
               href="/"
-              className="font-display text-lg font-semibold uppercase tracking-[0.05em] text-outback-cream"
+              className="font-display text-lg font-bold tracking-[-0.01em] text-white"
             >
-              <span className="text-outback-rust">Outback</span> Peptide Labs
+              <span className="text-brand-blue">Outback</span> Peptide Labs
             </LocalizedClientLink>
             <p className="text-sm leading-relaxed">
               Outback Peptide Labs — Australian-owned supplier of research-grade
@@ -29,14 +29,14 @@ export default async function Footer() {
 
           {/* Shop */}
           <div className="flex flex-col gap-y-3">
-            <span className="font-display text-sm font-semibold uppercase tracking-[0.05em] text-outback-cream">
+            <span className="font-display text-sm font-bold tracking-[-0.01em] text-white">
               Shop
             </span>
             <ul className="flex flex-col gap-y-2 text-sm">
               <li>
                 <LocalizedClientLink
                   href="/store"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   All Peptides
                 </LocalizedClientLink>
@@ -44,7 +44,7 @@ export default async function Footer() {
               <li>
                 <LocalizedClientLink
                   href="/categories/bulk-kits"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Bulk Kits
                 </LocalizedClientLink>
@@ -52,7 +52,7 @@ export default async function Footer() {
               <li>
                 <LocalizedClientLink
                   href="/store"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Lab Reports
                 </LocalizedClientLink>
@@ -62,14 +62,14 @@ export default async function Footer() {
 
           {/* Support */}
           <div className="flex flex-col gap-y-3">
-            <span className="font-display text-sm font-semibold uppercase tracking-[0.05em] text-outback-cream">
+            <span className="font-display text-sm font-bold tracking-[-0.01em] text-white">
               Support
             </span>
             <ul className="flex flex-col gap-y-2 text-sm">
               <li>
                 <LocalizedClientLink
                   href="/account"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   My Account
                 </LocalizedClientLink>
@@ -77,7 +77,7 @@ export default async function Footer() {
               <li>
                 <LocalizedClientLink
                   href="/legal/shipping"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Shipping Info
                 </LocalizedClientLink>
@@ -85,7 +85,7 @@ export default async function Footer() {
               <li>
                 <a
                   href="mailto:support@outbackpeptidelabs.example"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Contact Us
                 </a>
@@ -95,14 +95,14 @@ export default async function Footer() {
 
           {/* Legal */}
           <div className="flex flex-col gap-y-3">
-            <span className="font-display text-sm font-semibold uppercase tracking-[0.05em] text-outback-cream">
+            <span className="font-display text-sm font-bold tracking-[-0.01em] text-white">
               Legal
             </span>
             <ul className="flex flex-col gap-y-2 text-sm">
               <li>
                 <LocalizedClientLink
                   href="/legal/terms"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Terms &amp; Conditions
                 </LocalizedClientLink>
@@ -110,7 +110,7 @@ export default async function Footer() {
               <li>
                 <LocalizedClientLink
                   href="/legal/privacy"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Privacy Policy
                 </LocalizedClientLink>
@@ -118,7 +118,7 @@ export default async function Footer() {
               <li>
                 <LocalizedClientLink
                   href="/legal/refunds"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Refund Policy
                 </LocalizedClientLink>
@@ -126,7 +126,7 @@ export default async function Footer() {
               <li>
                 <LocalizedClientLink
                   href="/legal/shipping"
-                  className="hover:text-outback-amber transition-colors"
+                  className="transition-colors hover:text-blue-400"
                 >
                   Shipping Policy
                 </LocalizedClientLink>
@@ -136,9 +136,9 @@ export default async function Footer() {
         </div>
 
         {/* Legal disclaimer */}
-        <div className="border-t border-outback-line py-8 flex flex-col gap-y-4 text-xs leading-relaxed text-outback-muted-light">
+        <div className="border-t border-white/10 py-8 flex flex-col gap-y-4 text-xs leading-relaxed text-slate-300">
           <p>
-            <strong className="text-outback-cream">Disclaimer:</strong> All
+            <strong className="text-white">Disclaimer:</strong> All
             products supplied by Outback Peptide Labs are intended for laboratory
             research use only and are not for human consumption. These products
             are not therapeutic goods within the meaning of the Therapeutic Goods
@@ -147,7 +147,7 @@ export default async function Footer() {
             This website is restricted to persons 18 years of age or older.
           </p>
           <div className="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
-            <Text className="text-xs text-outback-muted-light">
+            <Text className="text-xs text-slate-300">
               © {new Date().getFullYear()} Outback Peptide Labs. All prices in AUD
               inc. GST.
             </Text>

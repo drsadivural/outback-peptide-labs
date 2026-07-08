@@ -19,7 +19,7 @@ export default function ProductPrice({
 
   if (!selectedPrice) {
     return (
-      <div className="block w-32 h-9 rounded bg-outback-raised animate-pulse" />
+      <div className="block w-32 h-9 rounded bg-slate-100 animate-pulse" />
     )
   }
 
@@ -30,11 +30,11 @@ export default function ProductPrice({
       <span
         className={clx(
           "font-display text-3xl font-semibold leading-none",
-          onSale ? "text-outback-amber" : "text-outback-cream"
+          onSale ? "text-brand-blue" : "text-brand-ink"
         )}
       >
         {!variant && (
-          <span className="text-base font-normal text-outback-muted-light">
+          <span className="text-base font-normal text-brand-muted">
             From{" "}
           </span>
         )}
@@ -45,11 +45,11 @@ export default function ProductPrice({
           {selectedPrice.calculated_price}
         </span>
       </span>
-      <span className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-outback-muted-light">
+      <span className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
         AUD inc. GST
       </span>
       {onSale && (
-        <p className="mt-1 text-sm text-outback-muted-light">
+        <p className="mt-1 text-sm text-brand-muted">
           <span>Original: </span>
           <span
             className="line-through"
@@ -58,7 +58,7 @@ export default function ProductPrice({
           >
             {selectedPrice.original_price}
           </span>
-          <span className="ml-2 font-semibold text-outback-amber">
+          <span className="ml-2 font-semibold text-brand-blue">
             -{selectedPrice.percentage_diff}%
           </span>
         </p>

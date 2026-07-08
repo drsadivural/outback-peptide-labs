@@ -65,24 +65,24 @@ const AgeGate = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-outback-black/95 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-brand-ink/60 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="age-gate-title"
     >
-      <div className="w-full max-w-lg rounded-large border border-outback-line bg-outback-surface p-8 shadow-2xl">
+      <div className="w-full max-w-lg rounded-2xl border border-brand-line bg-white p-8 shadow-2xl">
         <div className="mb-6 text-center">
-          <div className="font-display text-2xl font-bold uppercase tracking-wide text-outback-cream">
-            Outback <span className="text-outback-rust">Peptide Labs</span>
+          <div className="font-display text-2xl font-bold uppercase tracking-wide text-brand-ink">
+            Outback <span className="text-brand-blue">Peptide Labs</span>
           </div>
         </div>
 
         {denied ? (
           <div className="text-center">
-            <h1 className="mb-4 font-display text-3xl font-bold uppercase text-outback-cream">
+            <h1 className="mb-4 font-display text-3xl font-bold uppercase text-brand-ink">
               Access Denied
             </h1>
-            <p className="text-outback-ink-light">
+            <p className="text-brand-body">
               You must be 18 years of age or older to access this website.
               <br />
               You are being redirected away from this site.
@@ -92,25 +92,25 @@ const AgeGate = () => {
           <>
             <h1
               id="age-gate-title"
-              className="mb-4 text-center font-display text-3xl font-bold uppercase text-outback-cream"
+              className="mb-4 text-center font-display text-3xl font-bold uppercase text-brand-ink"
             >
               Age Verification Required
             </h1>
-            <p className="mb-4 text-center text-outback-ink-light">
+            <p className="mb-4 text-center text-brand-body">
               This website contains products intended for{" "}
-              <strong className="text-outback-cream">
+              <strong className="text-brand-ink">
                 laboratory research use only
               </strong>{" "}
               and is restricted to persons{" "}
-              <strong className="text-outback-cream">
+              <strong className="text-brand-ink">
                 18&nbsp;years of age or older
               </strong>
               .
             </p>
-            <p className="mb-2 font-semibold text-outback-cream">
+            <p className="mb-2 font-semibold text-brand-ink">
               By entering, you confirm that:
             </p>
-            <ul className="mb-6 list-disc space-y-1 pl-6 text-outback-ink-light">
+            <ul className="mb-6 list-disc space-y-1 pl-6 text-brand-body">
               <li>You are at least 18 years of age</li>
               <li>You are a qualified researcher or authorised purchaser</li>
               <li>You understand these products are not for human consumption</li>
@@ -119,7 +119,7 @@ const AgeGate = () => {
               <button
                 type="button"
                 onClick={handleEnter}
-                className="w-full rounded-base bg-outback-rust px-6 py-3 font-semibold uppercase tracking-wide text-outback-cream transition-colors hover:bg-outback-rust-hover"
+                className="w-full rounded-xl bg-brand-navy px-6 py-3 font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-navyHover"
                 data-testid="age-gate-enter"
               >
                 I am 18 or older — Enter Site
@@ -127,13 +127,13 @@ const AgeGate = () => {
               <button
                 type="button"
                 onClick={handleExit}
-                className="w-full rounded-base border border-outback-line bg-transparent px-6 py-3 font-semibold uppercase tracking-wide text-outback-ink-light transition-colors hover:bg-outback-raised"
+                className="w-full rounded-xl border border-brand-line bg-white px-6 py-3 font-semibold uppercase tracking-wide text-brand-body transition-colors hover:bg-brand-surface2"
                 data-testid="age-gate-exit"
               >
                 I am under 18 — Exit
               </button>
             </div>
-            <p className="mt-6 text-center text-xs text-outback-muted-light">
+            <p className="mt-6 text-center text-xs text-brand-muted">
               We use browser storage to remember your verification. Providing
               false information to access this site is a breach of our Terms
               &amp; Conditions.

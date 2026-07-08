@@ -23,7 +23,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
 
   return (
     <div className="flex flex-col gap-y-3">
-      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-outback-muted-light">
+      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-muted">
         Select {title}
       </span>
       <div className="flex flex-wrap gap-2" data-testid={dataTestId}>
@@ -34,12 +34,12 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
               onClick={() => updateOption(option.id, v)}
               key={v}
               className={clx(
-                "min-w-[3.75rem] flex-1 h-11 rounded-md border px-3 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-outback-amber/60",
+                "min-w-[3.75rem] flex-1 h-11 rounded-xl border px-3 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40",
                 selected
-                  ? "border-outback-rust bg-outback-rust text-outback-cream shadow-sm"
-                  : "border-outback-line bg-outback-raised text-outback-ink-light hover:border-outback-amber hover:text-outback-cream",
+                  ? "border-brand-navy bg-brand-navy text-white shadow-sm"
+                  : "border-brand-line bg-white text-brand-ink hover:border-brand-blue hover:text-brand-blue",
                 disabled &&
-                  "opacity-50 cursor-not-allowed hover:border-outback-line hover:text-outback-ink-light"
+                  "opacity-50 cursor-not-allowed hover:border-brand-line hover:text-brand-ink"
               )}
               disabled={disabled}
               data-testid="option-button"
