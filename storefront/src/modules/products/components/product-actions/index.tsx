@@ -138,7 +138,7 @@ export default function ProductActions({
   return (
     <>
       <div
-        className="flex flex-col gap-y-5 rounded-2xl border border-brand-line bg-white p-6 shadow-sm"
+        className="skeuo-panel flex flex-col gap-y-5 rounded-2xl p-6"
         ref={actionsRef}
       >
         {(product.variants?.length ?? 0) > 1 && (
@@ -159,7 +159,7 @@ export default function ProductActions({
                 )
               })}
             </div>
-            <div className="h-px w-full bg-brand-line" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-skeuo-line to-transparent" />
           </>
         )}
 
@@ -175,7 +175,7 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="w-full h-12 rounded-xl font-semibold !border-none !bg-brand-navy !text-white hover:!bg-brand-navyHover disabled:!cursor-not-allowed disabled:!bg-slate-200 disabled:!text-slate-400"
+          className="skeuo-btn skeuo-btn-green w-full h-12 text-base !border-0"
           isLoading={isAdding}
           data-testid="add-product-button"
         >

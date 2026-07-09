@@ -82,7 +82,7 @@ const CartDropdown = ({
       <Popover className="relative h-full">
         <PopoverButton className="h-full">
           <LocalizedClientLink
-            className="inline-flex items-center justify-center rounded-xl bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-navyHover"
+            className="skeuo-btn skeuo-btn-amber inline-flex items-center justify-center px-4 py-2 text-sm"
             href="/cart"
             data-testid="nav-cart-link"
           >{`Cart (${totalItems})`}</LocalizedClientLink>
@@ -99,11 +99,11 @@ const CartDropdown = ({
         >
           <PopoverPanel
             static
-            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
+            className="skeuo-panel hidden small:block absolute top-[calc(100%+6px)] right-0 rounded-2xl w-[420px] text-skeuo-ink"
             data-testid="nav-cart-dropdown"
           >
             <div className="p-4 flex items-center justify-center">
-              <h3 className="text-large-semi">Cart</h3>
+              <h3 className="text-large-semi skeuo-emboss">Cart</h3>
             </div>
             {cartState && cartState.items?.length ? (
               <>
@@ -193,7 +193,7 @@ const CartDropdown = ({
                   </div>
                   <LocalizedClientLink href="/cart" passHref>
                     <Button
-                      className="w-full"
+                      className="skeuo-btn skeuo-btn-green w-full !border-0"
                       size="large"
                       data-testid="go-to-cart-button"
                     >
@@ -205,15 +205,15 @@ const CartDropdown = ({
             ) : (
               <div>
                 <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
-                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                  <div className="skeuo-pin bg-gradient-to-b from-skeuo-greenLight to-skeuo-green text-small-regular flex items-center justify-center w-7 h-7 rounded-full text-white">
                     <span>0</span>
                   </div>
-                  <span>Your shopping bag is empty.</span>
+                  <span className="text-skeuo-body">Your shopping bag is empty.</span>
                   <div>
                     <LocalizedClientLink href="/store">
                       <>
                         <span className="sr-only">Go to all products page</span>
-                        <Button onClick={close}>Explore products</Button>
+                        <Button className="skeuo-btn skeuo-btn-amber !border-0" onClick={close}>Explore products</Button>
                       </>
                     </LocalizedClientLink>
                   </div>

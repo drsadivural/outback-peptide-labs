@@ -29,7 +29,7 @@ export default async function ProductRail({
   return (
     <div className="content-container py-14 small:py-20">
       <div className="flex items-end justify-between mb-8">
-        <Text className="font-display text-2xl small:text-3xl font-bold tracking-[-0.01em] text-brand-ink">
+        <Text className="font-display text-2xl small:text-3xl font-bold tracking-[-0.01em] text-skeuo-ink skeuo-emboss">
           {collection.title}
         </Text>
         <InteractiveLink href={`/collections/${collection.handle}`}>

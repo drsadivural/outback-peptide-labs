@@ -19,22 +19,22 @@ export default function ProductPrice({
 
   if (!selectedPrice) {
     return (
-      <div className="block w-32 h-9 rounded bg-slate-100 animate-pulse" />
+      <div className="skeuo-inset block w-32 h-9 rounded-lg animate-pulse" />
     )
   }
 
   const onSale = selectedPrice.price_type === "sale"
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-start">
       <span
         className={clx(
-          "font-display text-3xl font-semibold leading-none",
-          onSale ? "text-brand-blue" : "text-brand-ink"
+          "skeuo-price-plate skeuo-engrave px-3.5 py-1.5 font-display text-3xl font-bold leading-none",
+          onSale ? "text-skeuo-brass" : "text-skeuo-ink"
         )}
       >
         {!variant && (
-          <span className="text-base font-normal text-brand-muted">
+          <span className="text-base font-normal text-skeuo-muted">
             From{" "}
           </span>
         )}
@@ -45,11 +45,11 @@ export default function ProductPrice({
           {selectedPrice.calculated_price}
         </span>
       </span>
-      <span className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
+      <span className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-skeuo-muted">
         AUD inc. GST
       </span>
       {onSale && (
-        <p className="mt-1 text-sm text-brand-muted">
+        <p className="mt-1 text-sm text-skeuo-muted">
           <span>Original: </span>
           <span
             className="line-through"
@@ -58,7 +58,7 @@ export default function ProductPrice({
           >
             {selectedPrice.original_price}
           </span>
-          <span className="ml-2 font-semibold text-brand-blue">
+          <span className="ml-2 font-semibold text-skeuo-brass">
             -{selectedPrice.percentage_diff}%
           </span>
         </p>

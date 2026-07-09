@@ -22,7 +22,7 @@ const CoaLink = ({ product }: CoaLinkProps) => {
   }
 
   const className =
-    "inline-flex w-fit items-center gap-x-1 text-sm font-semibold text-brand-blue hover:underline"
+    "skeuo-btn skeuo-btn-neutral inline-flex w-fit items-center gap-x-1 px-4 py-2 text-sm !text-skeuo-brass"
 
   if (coa_url) {
     return (

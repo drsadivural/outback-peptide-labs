@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en-AU" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="bg-white text-brand-ink font-sans antialiased">
+      <body className="skeuo-page text-skeuo-ink font-sans antialiased">
         <main className="relative">{props.children}</main>
         <AgeGate />
       </body>

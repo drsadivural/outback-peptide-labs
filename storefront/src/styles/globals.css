@@ -116,3 +116,270 @@
     @apply text-[32px] leading-[44px] font-semibold;
   }
 }
+
+/* ==========================================================================
+   Skeuomorphic material system — "apothecary / lab"
+   Textured surfaces, glossy pressable controls, embossed type.
+   ========================================================================== */
+@layer components {
+  /* --- Textured page background (parchment + vignette + fine noise) ------- */
+  .skeuo-page {
+    background-color: #e7d8b8;
+    background-image:
+      radial-gradient(140% 90% at 50% -20%, rgba(255, 252, 244, 0.7), transparent 55%),
+      radial-gradient(130% 120% at 50% 118%, rgba(58, 43, 28, 0.22), transparent 55%),
+      linear-gradient(180deg, #f3e9d0 0%, #e9dabb 55%, #e2d1ad 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    background-attachment: fixed, fixed, fixed, fixed;
+  }
+
+  /* --- Raised panel / card (curved-surface gradient + bevel) -------------- */
+  .skeuo-panel {
+    background-image: linear-gradient(180deg, #fffdf7 0%, #f4ead5 100%);
+    border: 1px solid rgba(90, 68, 40, 0.35);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 0 rgba(120, 90, 50, 0.14),
+      0 8px 20px rgba(52, 37, 20, 0.18),
+      0 2px 5px rgba(52, 37, 20, 0.12);
+  }
+
+  /* Glass display-case card (product shelf) */
+  .skeuo-card {
+    background-image: linear-gradient(180deg, #fffdf8 0%, #efe3cb 100%);
+    border: 1px solid rgba(90, 68, 40, 0.32);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 10px 26px -6px rgba(52, 37, 20, 0.28),
+      0 2px 6px rgba(52, 37, 20, 0.12);
+  }
+  .skeuo-card-media {
+    background-image:
+      linear-gradient(180deg, #ece0c6 0%, #d9c8a4 100%);
+    box-shadow:
+      inset 0 2px 7px rgba(90, 68, 40, 0.32),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+  }
+  /* Diagonal glass sheen overlay */
+  .skeuo-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.42) 0%,
+      rgba(255, 255, 255, 0.08) 26%,
+      rgba(255, 255, 255, 0) 46%
+    );
+    pointer-events: none;
+  }
+
+  /* --- Recessed / inset well (inputs, price plates) ---------------------- */
+  .skeuo-inset {
+    background-image: linear-gradient(180deg, #e6d9bd 0%, #efe4cc 100%);
+    border: 1px solid rgba(90, 68, 40, 0.4);
+    box-shadow:
+      inset 0 2px 5px rgba(90, 68, 40, 0.35),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.55);
+  }
+
+  /* Engraved plate for the price readout */
+  .skeuo-price-plate {
+    display: inline-flex;
+    align-items: baseline;
+    background-image: linear-gradient(180deg, #ece0c5 0%, #dccbaa 100%);
+    border: 1px solid rgba(90, 68, 40, 0.4);
+    border-radius: 0.6rem;
+    box-shadow:
+      inset 0 2px 4px rgba(90, 68, 40, 0.35),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  /* --- Embossed / letterpress type --------------------------------------- */
+  .skeuo-emboss {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+  .skeuo-engrave {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.6),
+      0 -1px 1px rgba(90, 68, 40, 0.25);
+  }
+  .skeuo-emboss-dark {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+
+  /* --- Glossy pressable buttons ------------------------------------------ */
+  .skeuo-btn {
+    position: relative;
+    isolation: isolate;
+    border-radius: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.15s ease;
+    overflow: hidden;
+  }
+  /* top-half gloss sheen */
+  .skeuo-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 52% 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.45),
+      rgba(255, 255, 255, 0)
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+  .skeuo-btn > * {
+    position: relative;
+    z-index: 2;
+  }
+  .skeuo-btn:hover {
+    filter: brightness(1.04);
+  }
+  .skeuo-btn:active {
+    transform: translateY(2px);
+  }
+
+  .skeuo-btn-amber {
+    color: #40270a;
+    border: 1px solid rgba(120, 78, 18, 0.7);
+    text-shadow: 0 1px 0 rgba(255, 240, 210, 0.55);
+    background-image: linear-gradient(180deg, #e9b969 0%, #d0942f 52%, #b6791d 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      0 3px 0 #8a5c15,
+      0 6px 13px rgba(70, 45, 12, 0.4);
+  }
+  .skeuo-btn-amber:active {
+    box-shadow:
+      inset 0 2px 6px rgba(80, 48, 8, 0.5),
+      0 1px 0 #8a5c15;
+  }
+
+  .skeuo-btn-green {
+    color: #eef5ea;
+    border: 1px solid rgba(12, 40, 26, 0.8);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    background-image: linear-gradient(180deg, #3a8a63 0%, #256a48 52%, #17492f 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 3px 0 #123724,
+      0 6px 14px rgba(15, 45, 28, 0.45);
+  }
+  .skeuo-btn-green:active {
+    box-shadow:
+      inset 0 2px 7px rgba(0, 0, 0, 0.45),
+      0 1px 0 #123724;
+  }
+
+  .skeuo-btn-neutral {
+    color: #3a2c1a;
+    border: 1px solid rgba(90, 68, 40, 0.5);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    background-image: linear-gradient(180deg, #fdf7e8 0%, #e7d8bb 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 3px 0 #b8a67d,
+      0 6px 12px rgba(70, 52, 24, 0.28);
+  }
+  .skeuo-btn-neutral:active {
+    box-shadow:
+      inset 0 2px 6px rgba(120, 90, 50, 0.4),
+      0 1px 0 #b8a67d;
+  }
+
+  .skeuo-btn:disabled,
+  .skeuo-btn[disabled] {
+    filter: grayscale(0.5) brightness(0.97);
+    opacity: 0.55;
+    transform: none;
+    cursor: not-allowed;
+  }
+
+  /* --- Dosage chips: raised default, carved-in when selected ------------- */
+  .skeuo-chip {
+    position: relative;
+    color: #3a2c1a;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(90, 68, 40, 0.4);
+    background-image: linear-gradient(180deg, #fdf7e8 0%, #e9dbbd 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      0 2px 3px rgba(70, 52, 24, 0.2);
+    transition: box-shadow 0.1s ease, transform 0.06s ease;
+  }
+  .skeuo-chip:hover {
+    filter: brightness(1.02);
+  }
+  .skeuo-chip-selected {
+    color: #f3e9d2;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.45);
+    border-color: rgba(12, 40, 26, 0.7);
+    background-image: linear-gradient(180deg, #256a48 0%, #163d2c 100%);
+    box-shadow:
+      inset 0 2px 6px rgba(0, 0, 0, 0.5),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  /* --- Chrome: brushed-metal header, embossed ribbon, leather footer ----- */
+  .skeuo-brushed {
+    background-image:
+      linear-gradient(180deg, rgba(255, 253, 247, 0.92) 0%, rgba(230, 214, 182, 0.94) 100%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 0 2px,
+        rgba(90, 68, 40, 0.03) 2px 4px
+      );
+    border-bottom: 1px solid rgba(90, 68, 40, 0.4);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 0 rgba(120, 90, 50, 0.15),
+      0 4px 10px rgba(52, 37, 20, 0.22);
+  }
+
+  .skeuo-ribbon {
+    background-image: linear-gradient(180deg, #3c2c1b 0%, #2a1e12 100%);
+    color: #e7d6b4;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid #4a3721;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -2px 5px rgba(0, 0, 0, 0.45);
+  }
+
+  .skeuo-leather {
+    background-color: #241a12;
+    background-image:
+      radial-gradient(130% 100% at 50% 0%, rgba(255, 235, 200, 0.08), transparent 55%),
+      linear-gradient(180deg, #2d2116 0%, #1b130c 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  }
+  /* stitched top edge */
+  .skeuo-stitch {
+    border-top: 2px solid #4a3721;
+    box-shadow: inset 0 3px 0 -1px rgba(0, 0, 0, 0.5);
+    position: relative;
+  }
+  .skeuo-stitch::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 1px dashed rgba(224, 169, 78, 0.5);
+    pointer-events: none;
+  }
+
+  /* Enamel / metal pin badge */
+  .skeuo-pin {
+    border: 1px solid rgba(0, 0, 0, 0.28);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 2px 4px rgba(40, 25, 10, 0.35);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.28);
+  }
+}

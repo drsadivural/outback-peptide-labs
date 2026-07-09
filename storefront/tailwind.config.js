@@ -51,6 +51,26 @@ module.exports = {
           green: "#16a34a", // success / in-stock
           greenSoft: "#dcfce7",
         },
+        // Skeuomorphic "apothecary / lab" material palette (warm parchment +
+        // brass/amber + deep bottle-green). Used alongside the brand-* tokens.
+        skeuo: {
+          parchment: "#f1e6cd",
+          parchment2: "#e6d7b6",
+          cream: "#f7efd9",
+          ink: "#2a2118", // dark warm ink for text on parchment
+          body: "#54432f", // body copy on parchment
+          muted: "#87724f", // muted labels
+          line: "#c6b189", // hairline borders on parchment
+          brass: "#a9781f",
+          brassDark: "#7c561296",
+          amber: "#c8862a",
+          amberLight: "#e0a94e",
+          green: "#215c43",
+          greenLight: "#2f7a58",
+          greenDark: "#163d2c",
+          wood: "#3a2b1c",
+          leather: "#241a12",
+        },
         // Outback Peptide Labs brand palette (ported from reference/styles.css :root)
         outback: {
           black: "#0e0b08", // silhouette black

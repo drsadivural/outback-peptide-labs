@@ -17,7 +17,7 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-[72px] mx-auto border-b border-brand-line bg-white/90 backdrop-blur-md text-brand-ink shadow-[0_1px_3px_rgba(15,23,41,0.04)]">
+      <header className="skeuo-brushed relative h-[72px] mx-auto backdrop-blur-md text-skeuo-ink">
         <nav className="content-container flex items-center justify-between w-full h-full text-small-regular">
           {/* Left: mobile/side menu */}
           <div className="flex-1 basis-0 h-full flex items-center">
@@ -34,33 +34,33 @@ export default async function Nav() {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="font-display text-lg sm:text-xl font-bold tracking-[-0.01em] whitespace-nowrap text-brand-ink"
+              className="font-display text-lg sm:text-xl font-bold tracking-[-0.01em] whitespace-nowrap text-skeuo-ink skeuo-emboss"
               data-testid="nav-store-link"
               aria-label="Outback Peptide Labs — home"
             >
-              <span className="text-brand-blue">Outback</span> Peptide Labs
+              <span className="text-skeuo-brass">Outback</span> Peptide Labs
             </LocalizedClientLink>
           </div>
 
           {/* Right: nav links + account + cart */}
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <div className="hidden small:flex items-center gap-x-7 h-full font-medium text-sm text-brand-body">
+            <div className="hidden small:flex items-center gap-x-7 h-full font-semibold text-sm text-skeuo-body skeuo-emboss">
               <LocalizedClientLink
-                className="transition-colors hover:text-brand-blue"
+                className="transition-colors hover:text-skeuo-brass"
                 href="/store"
                 data-testid="nav-shop-link"
               >
                 Shop
               </LocalizedClientLink>
               <LocalizedClientLink
-                className="transition-colors hover:text-brand-blue"
+                className="transition-colors hover:text-skeuo-brass"
                 href="/categories/bulk-kits"
                 data-testid="nav-bulk-link"
               >
                 Bulk Kits
               </LocalizedClientLink>
               <LocalizedClientLink
-                className="transition-colors hover:text-brand-blue"
+                className="transition-colors hover:text-skeuo-brass"
                 href="/account"
                 data-testid="nav-account-link"
               >
@@ -70,7 +70,7 @@ export default async function Nav() {
             <Suspense
               fallback={
                 <LocalizedClientLink
-                  className="inline-flex items-center justify-center rounded-xl bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-navyHover"
+                  className="skeuo-btn skeuo-btn-amber inline-flex items-center justify-center px-4 py-2 text-sm"
                   href="/cart"
                   data-testid="nav-cart-link"
                 >

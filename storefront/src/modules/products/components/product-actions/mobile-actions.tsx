@@ -70,24 +70,24 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="opacity-0"
         >
           <div
-            className="bg-white text-brand-body flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-brand-line"
+            className="skeuo-brushed text-skeuo-body flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full"
             data-testid="mobile-actions"
           >
             <div className="flex items-center gap-x-2">
               <span data-testid="mobile-title">{product.title}</span>
               <span>—</span>
               {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-brand-ink">
+                <div className="flex items-end gap-x-2 text-skeuo-ink">
                   {selectedPrice.price_type === "sale" && (
                     <p>
-                      <span className="line-through text-small-regular text-brand-muted">
+                      <span className="line-through text-small-regular text-skeuo-muted">
                         {selectedPrice.original_price}
                       </span>
                     </p>
                   )}
                   <span
-                    className={clx("font-semibold", {
-                      "text-brand-blue":
+                    className={clx("font-bold", {
+                      "text-skeuo-brass":
                         selectedPrice.price_type === "sale",
                     })}
                   >
@@ -104,7 +104,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               {!isSimple && <Button
                 onClick={open}
                 variant="secondary"
-                className="w-full !border-brand-line !bg-white !text-brand-ink hover:!border-brand-blue"
+                className="skeuo-btn skeuo-btn-neutral w-full !border-0"
                 data-testid="mobile-actions-button"
               >
                 <div className="flex items-center justify-between w-full">
@@ -119,7 +119,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}
-                className="w-full font-semibold !border-none !bg-brand-navy !text-white hover:!bg-brand-navyHover disabled:!cursor-not-allowed disabled:!bg-slate-200 disabled:!text-slate-400"
+                className="skeuo-btn skeuo-btn-green w-full !border-0"
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >
@@ -165,13 +165,13 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   <div className="w-full flex justify-end pr-6">
                     <button
                       onClick={close}
-                      className="bg-white border border-brand-line w-12 h-12 rounded-full text-brand-ink flex justify-center items-center"
+                      className="skeuo-btn skeuo-btn-neutral w-12 h-12 rounded-full flex justify-center items-center"
                       data-testid="close-modal-button"
                     >
                       <X />
                     </button>
                   </div>
-                  <div className="bg-white border-t border-brand-line px-6 py-12">
+                  <div className="skeuo-panel border-t border-skeuo-line px-6 py-12">
                     {(product.variants?.length ?? 0) > 1 && (
                       <div className="flex flex-col gap-y-6">
                         {(product.options || []).map((option) => {

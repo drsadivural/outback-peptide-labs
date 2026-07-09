@@ -26,16 +26,16 @@ export default async function ProductPreview({
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
       <div
         data-testid="product-wrapper"
-        className="flex flex-col overflow-hidden rounded-2xl border border-brand-line bg-white shadow-sm transition-all duration-150 ease-in-out group-hover:-translate-y-1 group-hover:border-brand-blue group-hover:shadow-[0_16px_40px_-16px_rgba(15,23,41,0.25)]"
+        className="skeuo-card flex flex-col overflow-hidden rounded-2xl transition-all duration-150 ease-in-out group-hover:-translate-y-1 group-hover:shadow-[0_18px_44px_-14px_rgba(52,37,20,0.4)]"
       >
-        {/* Media */}
-        <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-brand-surface2">
+        {/* Media — glass display shelf */}
+        <div className="skeuo-card-media skeuo-sheen relative flex aspect-[4/3] items-center justify-center overflow-hidden">
           {badge && (
-            <span className="absolute left-3 top-3 z-10 rounded-full bg-brand-blue px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-white">
+            <span className="skeuo-pin absolute left-3 top-3 z-10 rounded-full bg-gradient-to-b from-skeuo-amberLight to-skeuo-amber px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-[#40270a]">
               {badge}
             </span>
           )}
-          <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-brand-greenSoft px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-brand-green">
+          <span className="skeuo-pin absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-gradient-to-b from-skeuo-greenLight to-skeuo-green px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-[#eef5ea]">
             In Stock
           </span>
           {image ? (
@@ -56,13 +56,13 @@ export default async function ProductPreview({
         {/* Body */}
         <div className="flex flex-1 flex-col gap-y-2 p-4">
           <h3
-            className="font-display text-base font-semibold tracking-[-0.01em] text-brand-ink"
+            className="font-display text-base font-semibold tracking-[-0.01em] text-skeuo-ink skeuo-emboss"
             data-testid="product-title"
           >
             {product.title}
           </h3>
           {product.description && (
-            <p className="line-clamp-2 flex-1 text-sm text-brand-body">
+            <p className="line-clamp-2 flex-1 text-sm text-skeuo-body">
               {product.description}
             </p>
           )}

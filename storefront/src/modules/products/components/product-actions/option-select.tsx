@@ -23,7 +23,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
 
   return (
     <div className="flex flex-col gap-y-3">
-      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-muted">
+      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-skeuo-muted skeuo-emboss">
         Select {title}
       </span>
       <div className="flex flex-wrap gap-2" data-testid={dataTestId}>
@@ -34,12 +34,9 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
               onClick={() => updateOption(option.id, v)}
               key={v}
               className={clx(
-                "min-w-[3.75rem] flex-1 h-11 rounded-xl border px-3 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40",
-                selected
-                  ? "border-brand-navy bg-brand-navy text-white shadow-sm"
-                  : "border-brand-line bg-white text-brand-ink hover:border-brand-blue hover:text-brand-blue",
-                disabled &&
-                  "opacity-50 cursor-not-allowed hover:border-brand-line hover:text-brand-ink"
+                "min-w-[3.75rem] flex-1 h-11 rounded-xl px-3 text-sm font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-skeuo-amber/50",
+                selected ? "skeuo-chip skeuo-chip-selected" : "skeuo-chip",
+                disabled && "opacity-50 cursor-not-allowed"
               )}
               disabled={disabled}
               data-testid="option-button"
