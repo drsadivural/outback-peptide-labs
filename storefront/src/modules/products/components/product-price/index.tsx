@@ -34,8 +34,8 @@ export default function ProductPrice({
         )}
       >
         {!variant && (
-          <span className="text-base font-normal text-skeuo-muted">
-            From{" "}
+          <span className="mr-1.5 text-base font-normal text-skeuo-muted">
+            From
           </span>
         )}
         <span

@@ -51,25 +51,27 @@ module.exports = {
           green: "#16a34a", // success / in-stock
           greenSoft: "#dcfce7",
         },
-        // Skeuomorphic "apothecary / lab" material palette (warm parchment +
-        // brass/amber + deep bottle-green). Used alongside the brand-* tokens.
+        // Outback theme tokens. Retained under the `skeuo` key so existing
+        // `text-skeuo-*` / `border-skeuo-*` utilities across components resolve
+        // to the desert-sunset palette on the new dark surfaces (light text on
+        // dark). Values mirror the original static styles.css :root.
         skeuo: {
-          parchment: "#f1e6cd",
-          parchment2: "#e6d7b6",
-          cream: "#f7efd9",
-          ink: "#2a2118", // dark warm ink for text on parchment
-          body: "#54432f", // body copy on parchment
-          muted: "#87724f", // muted labels
-          line: "#c6b189", // hairline borders on parchment
-          brass: "#a9781f",
-          brassDark: "#7c561296",
-          amber: "#c8862a",
-          amberLight: "#e0a94e",
-          green: "#215c43",
-          greenLight: "#2f7a58",
+          parchment: "#2a211b", // raised dark surface
+          parchment2: "#201915", // card dark surface
+          cream: "#f7eeda", // cream heading/text on dark
+          ink: "#f7eeda", // primary heading/name text on dark
+          body: "#cbb89b", // body copy on dark
+          muted: "#a08d6f", // muted labels on dark
+          line: "#3a2d23", // hairline borders on dark
+          brass: "#e9a96b", // amber accent / links on dark
+          brassDark: "#a84e1c", // rust
+          amber: "#e0954c",
+          amberLight: "#e9a96b",
+          green: "#3f5233", // in-stock badge green
+          greenLight: "#4a6b3d",
           greenDark: "#163d2c",
           wood: "#3a2b1c",
-          leather: "#241a12",
+          leather: "#0e0b08", // footer black
         },
         // Outback Peptide Labs brand palette (ported from reference/styles.css :root)
         outback: {
@@ -128,7 +130,7 @@ module.exports = {
           "sans-serif",
         ],
         display: [
-          "var(--font-outfit)",
+          "var(--font-oswald)",
           "var(--font-inter)",
           "Inter",
           "sans-serif",

@@ -19,21 +19,21 @@ export default async function Nav() {
   const primaryLinks = (
     <>
       <LocalizedClientLink
-        className="transition-colors hover:text-skeuo-brass"
+        className="transition-colors hover:text-outback-rust"
         href="/store"
         data-testid="nav-shop-link"
       >
         Shop
       </LocalizedClientLink>
       <LocalizedClientLink
-        className="transition-colors hover:text-skeuo-brass"
+        className="transition-colors hover:text-outback-rust"
         href="/categories/bulk-kits"
         data-testid="nav-bulk-link"
       >
         Bulk Kits
       </LocalizedClientLink>
       <LocalizedClientLink
-        className="transition-colors hover:text-skeuo-brass"
+        className="transition-colors hover:text-outback-rust"
         href="/account"
         data-testid="nav-account-link"
       >
@@ -44,7 +44,7 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="skeuo-brushed relative mx-auto backdrop-blur-md text-skeuo-ink">
+      <header className="skeuo-brushed relative mx-auto backdrop-blur-md text-outback-ink-dark">
         {/* Primary bar */}
         <nav className="content-container flex items-center justify-between w-full h-[64px] small:h-[72px] gap-x-2 text-small-regular">
           {/* Left: mobile/side menu */}
@@ -62,20 +62,20 @@ export default async function Nav() {
           <div className="flex items-center h-full min-w-0">
             <LocalizedClientLink
               href="/"
-              className="font-display text-base small:text-xl font-bold tracking-[-0.01em] whitespace-nowrap text-skeuo-ink skeuo-emboss"
+              className="font-display text-base small:text-xl font-semibold uppercase tracking-[0.04em] whitespace-nowrap text-outback-ink-dark"
               data-testid="nav-store-link"
               aria-label="Outback Peptide Labs — home"
             >
-              <span className="text-skeuo-brass">Outback</span> Peptide Labs
+              <span className="text-outback-rust">Outback</span> Peptide Labs
             </LocalizedClientLink>
           </div>
 
           {/* Right: nav links (desktop) + search + cart */}
           <div className="flex items-center gap-x-3 small:gap-x-6 h-full flex-1 basis-0 justify-end min-w-0">
-            <div className="hidden small:flex items-center gap-x-7 h-full font-semibold text-sm text-skeuo-body skeuo-emboss">
+            <div className="hidden small:flex items-center gap-x-7 h-full font-semibold text-sm text-outback-ink-dark">
               {primaryLinks}
             </div>
-            <SearchBar />
+            <SearchBar className="hidden small:flex" />
             <Suspense
               fallback={
                 <LocalizedClientLink
@@ -94,10 +94,10 @@ export default async function Nav() {
 
         {/* Secondary strip: always-visible primary links on mobile/tablet */}
         <nav
-          className="small:hidden border-t border-skeuo-line/70"
+          className="small:hidden border-t border-black/10"
           aria-label="Primary"
         >
-          <div className="content-container flex items-center justify-center gap-x-6 overflow-x-auto whitespace-nowrap py-2.5 text-sm font-semibold text-skeuo-body skeuo-emboss">
+          <div className="content-container flex items-center justify-center gap-x-6 overflow-x-auto whitespace-nowrap py-2.5 text-sm font-semibold text-outback-ink-dark">
             {primaryLinks}
           </div>
         </nav>

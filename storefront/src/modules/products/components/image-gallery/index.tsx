@@ -14,7 +14,7 @@ const ImageGallery = ({ images, vialColor }: ImageGalleryProps) => {
     return (
       <div className="flex items-start relative">
         <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
-          <Container className="relative flex aspect-[29/34] w-full items-center justify-center overflow-hidden rounded-2xl border border-brand-line bg-brand-surface2">
+          <Container className="skeuo-card-media relative flex aspect-[29/34] w-full items-center justify-center overflow-hidden rounded-2xl border border-outback-line">
             <Vial color={vialColor} size={320} />
           </Container>
         </div>
@@ -29,7 +29,7 @@ const ImageGallery = ({ images, vialColor }: ImageGalleryProps) => {
           return (
             <Container
               key={image.id}
-              className="relative aspect-[29/34] w-full overflow-hidden bg-ui-bg-subtle"
+              className="skeuo-card-media relative aspect-[29/34] w-full overflow-hidden rounded-2xl border border-outback-line"
               id={image.id}
             >
               {!!image.url && (

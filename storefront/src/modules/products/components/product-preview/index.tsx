@@ -31,11 +31,11 @@ export default async function ProductPreview({
         {/* Media — glass display shelf */}
         <div className="skeuo-card-media skeuo-sheen relative flex aspect-[4/3] items-center justify-center overflow-hidden">
           {badge && (
-            <span className="skeuo-pin absolute left-3 top-3 z-10 rounded-full bg-gradient-to-b from-skeuo-amberLight to-skeuo-amber px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-[#40270a]">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-outback-rust px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-outback-cream">
               {badge}
             </span>
           )}
-          <span className="skeuo-pin absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-gradient-to-b from-skeuo-greenLight to-skeuo-green px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-[#eef5ea]">
+          <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-[#3f5233] px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-[#d9ecc8]">
             In Stock
           </span>
           {image ? (

@@ -175,7 +175,7 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="skeuo-btn skeuo-btn-green w-full h-12 text-base !border-0"
+          className="skeuo-btn skeuo-btn-amber w-full h-12 text-base !border-0"
           isLoading={isAdding}
           data-testid="add-product-button"
         >

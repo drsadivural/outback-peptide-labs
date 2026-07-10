@@ -1,7 +1,7 @@
 import { getBaseURL } from "@lib/util/env"
 import AgeGate from "@modules/common/components/age-gate"
 import { Metadata } from "next"
-import { Inter, Outfit } from "next/font/google"
+import { Inter, Oswald } from "next/font/google"
 import "styles/globals.css"
 
 const inter = Inter({
@@ -11,10 +11,10 @@ const inter = Inter({
   display: "swap",
 })
 
-const outfit = Outfit({
+const oswald = Oswald({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  variable: "--font-outfit",
+  variable: "--font-oswald",
   display: "swap",
 })
 
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="skeuo-page text-skeuo-ink font-sans antialiased overflow-x-hidden">
+    <html lang="en-AU" className={`${inter.variable} ${oswald.variable}`}>
+      <body className="skeuo-page text-outback-ink-light font-sans antialiased overflow-x-hidden">
         <main className="relative">{props.children}</main>
         <AgeGate />
       </body>
