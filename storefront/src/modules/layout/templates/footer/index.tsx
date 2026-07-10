@@ -1,7 +1,6 @@
 import { Text } from "@medusajs/ui"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
 
 export default async function Footer() {
   return (
@@ -151,7 +150,6 @@ export default async function Footer() {
               © {new Date().getFullYear()} Outback Peptide Labs. All prices in AUD
               inc. GST.
             </Text>
-            <MedusaCTA />
           </div>
         </div>
       </div>
